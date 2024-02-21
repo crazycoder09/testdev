@@ -12,6 +12,16 @@ pipeline {
                 script {
                     // Checkout the master branch
                     checkout([$class: 'GitSCM', branches: [[name: MASTER_BRANCH]], userRemoteConfigs: [[url: 'https://github.com/crazycoder09/testdev.git']]])
+
+                    // Check if the TEST_BRANCH exists, if not, create it
+                    def branchExists = sh(script: "git show-ref refs/heads/${TEST_BRANCH}", returnStatus: true) == 0
+                    if (!branchExists) {
+                        echo "Branch ${TEST_BRANCH} doesn't exist. Creating it..."
+                        sh "git checkout -b ${TEST_BRANCH}"
+                        sh "git push origin ${TEST_BRANCH}"
+                    } else {
+                        echo "Branch ${TEST_BRANCH} already exists."
+                    }
                 }
             }
         }
