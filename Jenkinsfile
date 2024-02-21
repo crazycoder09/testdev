@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    tools {
-        git 'Default Git'
-    }
-
     environment {
         MASTER_BRANCH = 'master'
         TEST_BRANCH = 'master1'
@@ -14,6 +10,9 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
+                    // Clean workspace
+                    deleteDir()
+
                     // Checkout the master branch
                     checkout([$class: 'GitSCM', branches: [[name: MASTER_BRANCH]], userRemoteConfigs: [[url: 'https://github.com/crazycoder09/testdev.git']]])
 
