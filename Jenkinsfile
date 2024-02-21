@@ -4,11 +4,11 @@ pipeline {
     tools {
         git 'Default Git'
     }
+
     environment {
         MASTER_BRANCH = 'master'
         TEST_BRANCH = 'master1'
     }
-    
 
     stages {
         stage('Checkout') {
